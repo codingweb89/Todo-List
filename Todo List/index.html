@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="index.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List app</title>
+</head>
+<body>
+    
+
+<div class="container">
+    <input type="text" placeholder="Enter list of events here" class="input">
+    <div class="mini_container"></div>
+    <div class="closure">
+        <footer>0 item added</footer>
+        <button class="clr_all">Clear All</button>
+    </div>
+</div>
+
+
+
+<script>
+
+const  miniContainer = document.querySelector(".mini_container");
+const input = document.querySelector("input");
+
+input.addEventListener("keydown", (e) => {
+    if(e.key === "Enter") {
+        if(input.value !== "") {
+            addItem();
+            input.value = "";
+        }
+    };
+})
+
+let count = 0;
+
+function addItem() {
+
+    count++;
+    count <= 1 ? document.querySelector("footer").textContent = `${count} item added` : document.querySelector("footer").textContent = `${count} items added`;
+
+    let value = input.value;
+    let checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    let item = document.createElement("span");
+    item.textContent = input.value;
+    let close = document.createElement("img");
+    close.src = "close-block.png";
+    let div = document.createElement("div");
+    div.append(checkbox, item, close);
+    miniContainer.append(div);
+
+miniContainer.querySelectorAll("input").forEach((item, count) => {
+    item.addEventListener("click", () => {
+        if(item.checked) {
+            let itemParentElement = item.parentElement;
+            itemParentElement.classList.add("completed");
+        }else {
+            let itemParentElement = item.parentElement;
+            itemParentElement.classList.remove("completed");
+        }
+    })
+})
+
+miniContainer.querySelectorAll("img").forEach((img, count) => {
+    img.addEventListener("click", e => {
+        img.parentNode.remove();
+    })
+})
+    
+}
+
+document.querySelector(".clr_all").addEventListener("click", e => {
+    miniContainer.innerHTML = "";
+    count = 0;
+    count <= 1 ? document.querySelector("footer").textContent = `${count} item added` : document.querySelector("footer").textContent = `${count} items added`;
+})
+
+
+
+
+</script>
+
+</body>
+</html>
